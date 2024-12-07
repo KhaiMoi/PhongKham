@@ -35,11 +35,11 @@ const Navbar = () => {
 
   return (
     <div className="left-0 w-full h-16 flex items-center px-10 bg-blue-100 ">
-      <div className="flex-shrink-0">
-       <a href="/first-page">
-       <img className="w-[100px] cursor-pointer" src={"logo-main.png"} alt="Logo" />
-       </a>
-      </div>
+      <a href="/first-page">
+        <div className="flex-shrink-0">
+          <img className="w-[100px] cursor-pointer" src={"logo-main.png"} alt="Logo" />
+        </div>
+      </a>
 
       <ul className="flex-1 flex justify-center gap-10">
         {menuItems.map((item, index) => (

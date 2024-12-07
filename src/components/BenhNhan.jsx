@@ -1,109 +1,34 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 const BenhNhan = () => {
-    const benhnhan = [
-        {
-          stt: 1,
-          ten: "Trương Thị Hoa",
-          gioitinh: "Nữ",
-          date: "12/12/2025",
-          sdt: "0909090231",
-          canang: 34,
-          chieucao: 170,
-          BHYT: "5126836989812",
-          CCCD: "08352351239",
-        },
-        {
-          stt: 2,
-          ten: "Nguyễn Văn Bình",
-          gioitinh: "Nam",
-          date: "25/11/2023",
-          sdt: "0912123456",
-          canang: 68,
-          chieucao: 175,
-          BHYT: "5126836989822",
-          CCCD: "08352351240",
-        },
-        {
-          stt: 3,
-          ten: "Phạm Thị Lan",
-          gioitinh: "Nữ",
-          date: "18/06/2024",
-          sdt: "0987654321",
-          canang: 52,
-          chieucao: 160,
-          BHYT: "5126836989833",
-          CCCD: "08352351241",
-        },
-        {
-          stt: 4,
-          ten: "Lê Minh Tuấn",
-          gioitinh: "Nam",
-          date: "10/03/2025",
-          sdt: "0933331234",
-          canang: 80,
-          chieucao: 180,
-          BHYT: "5126836989844",
-          CCCD: "08352351242",
-        },
-        {
-          stt: 5,
-          ten: "Hoàng Thu Hương",
-          gioitinh: "Nữ",
-          date: "15/09/2023",
-          sdt: "0921234567",
-          canang: 45,
-          chieucao: 155,
-          BHYT: "5126836989855",
-          CCCD: "08352351243",
-        },
-        {
-          stt: 6,
-          ten: "Trần Quốc Anh",
-          gioitinh: "Nam",
-          date: "20/02/2024",
-          sdt: "0945678901",
-          canang: 74,
-          chieucao: 178,
-          BHYT: "5126836989866",
-          CCCD: "08352351244",
-        },
-        {
-          stt: 7,
-          ten: "Vũ Thị Thanh",
-          gioitinh: "Nữ",
-          date: "05/05/2025",
-          sdt: "0956781234",
-          canang: 50,
-          chieucao: 165,
-          BHYT: "5126836989877",
-          CCCD: "08352351245",
-        },
-        {
-          stt: 8,
-          ten: "Đặng Văn Hùng",
-          gioitinh: "Nam",
-          date: "30/12/2023",
-          sdt: "0967890123",
-          canang: 62,
-          chieucao: 172,
-          BHYT: "5126836989888",
-          CCCD: "08352351246",
-        },
-        {
-            stt: 9,
-            ten: "Đặng Văn Hùng",
-            gioitinh: "Nam",
-            date: "30/12/2023",
-            sdt: "0967890123",
-            canang: 62,
-            chieucao: 172,
-            BHYT: "5126836989888",
-            CCCD: "08352351246",
-          },
-      ];
-      
-      
+  // Add state for benhnhan data
+  const [benhnhan, setBenhnhan] = useState([]);
+
+  // Add useEffect to fetch data
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://127.0.0.1:8000/api/benh-nhan');
+        const result = await response.json();
+        if (result.status === 'success') {
+          setBenhnhan(result.data);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const handleDetail = (id) => {
+    console.log('View detail for ID:', id);
+  };
+
+  const handleDelete = (id) => {
+    console.log('Delete item with ID:', id);
+  };
+
   return (
     <div>
       <div className="w-full m-10">
@@ -111,12 +36,25 @@ const BenhNhan = () => {
           <div className="mb-5 text-center text-4xl font-bold ">
             <h1>Danh Sach Benh Nhan</h1>
           </div>
-          <div>
-            <div className="flex gap-5 mb-5">
-              <button className="rounded bg-green-400 py-3 px-8">
-                Them Moi Benh Nhan
+          <div className="flex justify-between items-center mb-6">
+            <button className="rounded bg-blue-500 hover:bg-blue-600 text-white py-2 px-6 transition-colors">
+              Thêm Mới Bệnh Nhân
+            </button>
+            <div className="flex gap-4">
+              <input 
+                type="search" 
+                placeholder="Tìm kiếm bệnh nhân..." 
+                className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              <button 
+                className="rounded bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 transition-colors"
+                onClick={() => console.log('Search clicked')}
+              >
+                Tìm Kiếm
               </button>
             </div>
+          </div>
+          <div>
             <table className="border-collapse table-auto w-full text-left text-sm">
               <thead>
                 <tr className="border-b border-gray-200">
@@ -127,6 +65,7 @@ const BenhNhan = () => {
                   <th className="px-6 py-3">Điện Thoại</th>
                   <th className="px-6 py-3">Cân Nặng</th>
                   <th className="px-6 py-3">Chiều Cao</th>
+                  <th className="px-6 py-3">Địa Chỉ</th>
                   <th className="px-6 py-3">BHYT</th>
                   <th className="px-6 py-3">CCCD</th>
                   <th className="px-6 py-3">Tác Vụ</th>
@@ -134,16 +73,17 @@ const BenhNhan = () => {
               </thead>
               <tbody>
                 {benhnhan.map((danhsachbenhnhan, index) => (
-                  <tr className="hover:bg-gray-50" key={index}>
-                    <td className="px-6 py-4">{danhsachbenhnhan.stt}</td>
-                    <td className="px-6 py-4">{danhsachbenhnhan.ten}</td>
-                    <td className="px-6 py-4">{danhsachbenhnhan.gioitinh}</td>
-                    <td className="px-6 py-4">{danhsachbenhnhan.date}</td>
-                    <td className="px-6 py-4">{danhsachbenhnhan.sdt}</td>
-                    <td className="px-6 py-4">{danhsachbenhnhan.canang} kg</td>
-                    <td className="px-6 py-4">{danhsachbenhnhan.chieucao} cm</td>
-                    <td className="px-6 py-4">{danhsachbenhnhan.BHYT}</td>
-                    <td className="px-6 py-4">{danhsachbenhnhan.CCCD}</td>
+                  <tr className="hover:bg-gray-50" key={danhsachbenhnhan.id}>
+                    <td className="px-6 py-4">{index + 1}</td>
+                    <td className="px-6 py-4">{danhsachbenhnhan.ho_ten}</td>
+                    <td className="px-6 py-4">{danhsachbenhnhan.gioi_tinh === 1 ? 'Nam' : 'Nữ'}</td>
+                    <td className="px-6 py-4">{danhsachbenhnhan.ngay_sinh}</td>
+                    <td className="px-6 py-4">{danhsachbenhnhan.so_dien_thoai}</td>
+                    <td className="px-6 py-4">{danhsachbenhnhan.can_nang} kg</td>
+                    <td className="px-6 py-4">{danhsachbenhnhan.chieu_cao} cm</td>
+                    <td className="px-6 py-4">{danhsachbenhnhan.dia_chi}</td>
+                    <td className="px-6 py-4">{danhsachbenhnhan.bao_hiem_y_te}</td>
+                    <td className="px-6 py-4">{danhsachbenhnhan.can_cuoc_cong_dan}</td>
                     <td className="px-6 py-4 text-white">
                       <button className="rounded bg-green-600 m-3 p-2">
                         Chi Tiet
