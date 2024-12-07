@@ -54,12 +54,16 @@ const FirstPage = () => {
       if (response.data.status) {
         setAlertMessage(response.data.message);
         setAlertType('success');
+        
         if (rememberMe) {
           localStorage.setItem('token', response.data.token);
+        } else {
+          sessionStorage.setItem('token', response.data.token);
         }
+        
         setIsModalOpen(false);
         setLoginAttempts(0);
-        navigate('/home');
+        window.location.href = '/home';
       } else {
         handleFailedLogin();
       }

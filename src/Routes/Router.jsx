@@ -5,10 +5,10 @@ import KhoThuoc from '../components/KhoThuoc'
 import Home from '../components/Home'
 import FirstPage from '../components/FirstPage'
 import Layout from '../components/Layout'
-import ProtectedRoute from '../components/ProtectedRoute'
 
 const Router = () => {
-  const token = localStorage.getItem('token');
+  // Check for token in both localStorage and sessionStorage
+  const token = localStorage.getItem('token') || sessionStorage.getItem('token');
 
   return (
     <Routes>
@@ -17,28 +17,45 @@ const Router = () => {
         token ? <Navigate to="/home" replace /> : <FirstPage />
       } />
 
-      {/* Các route được bảo vệ */}
+      {/* FirstPage Route */}
+      <Route path='/first-page' element={
+        token ? <Navigate to="/home" replace /> : <FirstPage />
+      } />
+
+      {/* Home Route */}
       <Route path='/home' element={
-        <ProtectedRoute>
+        token ? (
           <Layout>
             <Home />
           </Layout>
-        </ProtectedRoute>
+        ) : (
+          <Navigate to="/first-page" replace />
+        )
       } />
+
+      {/* Protected Routes */}
       <Route path='/danh-sach-benh-nhan' element={
-        <ProtectedRoute>
+        token ? (
           <Layout>
             <BenhNhan />
           </Layout>
-        </ProtectedRoute>
+        ) : (
+          <Navigate to="/first-page" replace />
+        )
       } />
+      
       <Route path='/kho-thuoc' element={
-        <ProtectedRoute>
+        token ? (
           <Layout>
             <KhoThuoc />
           </Layout>
-        </ProtectedRoute>
+        ) : (
+          <Navigate to="/first-page" replace />
+        )
       } />
+
+      {/* Catch all other routes */}
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   )
 }
