@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "motion/react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-const Home = () => {
+const FirstPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [password, setPassword] = useState('');
   const [passwordError, setPasswordError] = useState('');
@@ -15,6 +16,7 @@ const Home = () => {
   const [loginAttempts, setLoginAttempts] = useState(0);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [timeLeft, setTimeLeft] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (alertMessage) {
@@ -50,16 +52,15 @@ const Home = () => {
       });
 
       if (response.data.status) {
-        // Đăng nhập thành công
-        setAlertMessage('Đăng nhập thành công: ' + response.data.message);
+        setAlertMessage(response.data.message);
         setAlertType('success');
         if (rememberMe) {
           localStorage.setItem('token', response.data.token);
         }
         setIsModalOpen(false);
-        setLoginAttempts(0); // Reset attempts on successful login
+        setLoginAttempts(0);
+        navigate('/home');
       } else {
-        // Đăng nhập thất bại
         handleFailedLogin();
       }
     } catch (error) {
@@ -87,19 +88,14 @@ const Home = () => {
     >
       {/* Alert */}
       {alertMessage && (
-        <div
-          className={`fixed top-4 left-1/2 transform -translate-x-1/2 p-4 mb-4 text-sm text-white rounded-lg z-50 ${alertType === 'success' ? 'bg-green-500' : 'bg-red-500'}`}
-          role="alert"
-        >
+        <div className={`fixed top-4 left-1/2 transform -translate-x-1/2 p-4 mb-4 text-sm text-white rounded-lg z-50 ${alertType === 'success' ? 'bg-green-500' : 'bg-red-500'}`}>
           {alertMessage}
-          <button onClick={() => setAlertMessage('')} className="ml-4 text-white hover:text-gray-200">
-            &times;
-          </button>
         </div>
       )}
 
       {/* Lớp phủ */}
       <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+      
       {/* Nội dung */}
       <div className="container relative z-10 text-center mx-auto py-4 px-[50px]">
         <motion.h1
@@ -121,7 +117,7 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Modal */}
+      {/* Modal đăng nhập */}
       {isModalOpen && (
         <div
           id="authentication-modal"
@@ -192,7 +188,7 @@ const Home = () => {
                       type={showPassword ? "text" : "password"}
                       name="password"
                       id="password"
-                      placeholder="••••••••"
+                      placeholder="•••••••"
                       value={password}
                       onChange={(e) => {
                         setPassword(e.target.value);
@@ -262,7 +258,7 @@ const Home = () => {
                     {isButtonDisabled ? `Bạn đã nhập sai quá 5 lần. Vui lòng đợi ${timeLeft} giây để thử lại.` : loginError}
                   </div>
                 )}
-                <button
+                <button 
                   type="submit"
                   className={`w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ${
                     isButtonDisabled ? 'opacity-50 cursor-not-allowed' : ''
@@ -280,4 +276,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default FirstPage;

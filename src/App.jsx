@@ -1,15 +1,13 @@
 import React from 'react'
-import Home from './components/Home'
-import FirstPage from './components/FirstPage'
-
+import Router from './Routes/Router'
 
 const App = () => {
   return (
     <div className='w-full overflow-hidden'>
-         <Home/>
+      <Router />
     </div>
-
   )
 }
 
 export default App
+
