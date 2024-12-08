@@ -5,7 +5,7 @@ import KhoThuoc from '../components/KhoThuoc'
 import Home from '../components/Home'
 import FirstPage from '../components/FirstPage'
 import Layout from '../components/Layout'
-
+import ToaThuoc from '../components/ToaThuoc'
 const Router = () => {
   // Check for token in both localStorage and sessionStorage
   const token = localStorage.getItem('token') || sessionStorage.getItem('token');
@@ -48,6 +48,16 @@ const Router = () => {
         token ? (
           <Layout>
             <KhoThuoc />
+          </Layout>
+        ) : (
+          <Navigate to="/first-page" replace />
+        )
+      } />
+
+      <Route path='/toa-thuoc' element={
+        token ? (
+          <Layout>
+            <ToaThuoc />
           </Layout>
         ) : (
           <Navigate to="/first-page" replace />

@@ -10,7 +10,7 @@ const Navbar = () => {
     { name: "Danh sách Bệnh Nhân", to: "/danh-sach-benh-nhan" },
     { name: "Danh Mục Thuốc", to: "/kho-thuoc" },
     { name: "Lịch Sử Khám", to: "#" },
-    { name: "Toa Thuốc", to: "#" },
+    { name: "Toa Thuốc", to: "/toa-thuoc" },
   ];
 
   const handleLogout = () => {
